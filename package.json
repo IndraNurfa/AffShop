@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint src/server",
+    "lint": "eslint src/",
     "fix": "eslint src/ --fix",
     "start": "nodemon src/server"
   },

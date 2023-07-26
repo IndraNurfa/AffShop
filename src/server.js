@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const routes = require('./route/route');
 const app = express();
 const mongoString = process.env.DATABASE_URL;
 
@@ -24,6 +25,8 @@ app.use(
         extended: true,
     }),
 );
+
+app.use('/api', routes);
 
 app.listen(process.env.PORT, () => {
     console.log(`listening on port ${process.env.PORT}`);
