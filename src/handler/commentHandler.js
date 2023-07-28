@@ -19,7 +19,7 @@ const addComment = async (req, res) => {
             message: error.message
         });
     }
-}
+};
 
 const getComments = async (req, res) => {
     try {
@@ -28,11 +28,11 @@ const getComments = async (req, res) => {
         });
         res.json(comments);
     } catch (error) {
-        res.status(400).json({
+        res.status(404).json({
             message: error.message
         });
     }
-}
+};
 
 module.exports = {
     addComment,

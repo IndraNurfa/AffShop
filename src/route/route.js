@@ -16,13 +16,20 @@ const {
     registerUser,
     loginUser,
     logoutUser,
-} = require('../handler/authHandler')
+} = require('../handler/authHandler');
 
-const { addProduct } = require('../handler/productHandler')
+const {
+    addProduct
+} = require('../handler/productHandler');
+
+const {
+    getProfile,
+    editProfile
+} = require('../handler/userHandler')
 
 const {
     requireLogin
-} = require('../middleware/authMiddleware')
+} = require('../middleware/authMiddleware');
 
 // Home page
 router.get('/getThumbnails', thumbnailList);
@@ -38,9 +45,13 @@ router.post('/addVideo', requireLogin, addVideo);
 router.post('/comment', requireLogin, addComment);
 router.get('/comment/:id', getComments);
 
-// User handler
+// Auth handler
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 router.post('/logout', logoutUser);
+
+// User handler
+router.get('/profile', requireLogin, getProfile);
+router.post('/profile', requireLogin, editProfile);
 
 module.exports = router;

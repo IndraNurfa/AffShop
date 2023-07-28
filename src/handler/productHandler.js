@@ -12,7 +12,7 @@ const addProduct = async (req, res) => {
         link: link,
         title: title,
         price: price
-    });;
+    });
 
     try {
         const productToSave = await product.save();
@@ -25,7 +25,7 @@ const addProduct = async (req, res) => {
             message: error.message
         });
     }
-}
+};
 
 module.exports = {
     addProduct
