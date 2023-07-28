@@ -1,5 +1,6 @@
 const Video = require('../model/videoModel');
 const Product = require('../model/productModel');
+const Comment = require('../model/commentModel');
 
 const thumbnailList = async (req, res) => {
     try {
@@ -18,10 +19,13 @@ const getVideoDetails = async (req, res) => {
         const products = await Product.find({
             videoId: req.params.id
         });
-
+        const comments = await Comment.find({
+            videoId: req.params.id
+        });
         res.json({
             videos,
-            products
+            products,
+            comments
         });
     } catch (error) {
         res.status(500).json({

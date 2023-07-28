@@ -19,7 +19,7 @@ const {
 } = require('../handler/authHandler');
 
 const {
-    addProduct
+    addProduct, getProduct
 } = require('../handler/productHandler');
 
 const {
@@ -36,6 +36,7 @@ router.get('/getThumbnails', thumbnailList);
 
 // Product handler
 router.post('/addProduct/:id', requireLogin, addProduct);
+router.get('/getProduct/:id', getProduct)
 
 // Video handler
 router.get('/video/:id', getVideoDetails);

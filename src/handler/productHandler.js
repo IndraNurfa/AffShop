@@ -27,6 +27,19 @@ const addProduct = async (req, res) => {
     }
 };
 
+const getProduct = async (req, res) => {
+    try {
+        const products = await Product.find({
+            videoId: req.params.id
+        });
+        res.json(products)
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+};
+
 module.exports = {
-    addProduct
+    addProduct, getProduct
 };
