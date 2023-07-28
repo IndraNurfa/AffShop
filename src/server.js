@@ -3,7 +3,9 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const session = require('express-session');
 const routes = require('./route/route');
+
 const app = express();
 const mongoString = process.env.DATABASE_URL;
 
@@ -20,11 +22,18 @@ database.once('connected', () => {
 });
 
 app.use(bodyParser.json());
+
 app.use(
     bodyParser.urlencoded({
         extended: true,
     }),
 );
+
+app.use(session({
+    secret: 'affshop-secret-key',
+    resave: false,
+    saveUninitialized: true,
+}));
 
 app.use('/api', routes);
 

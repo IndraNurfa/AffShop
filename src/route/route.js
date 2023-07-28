@@ -3,7 +3,8 @@ const router = express.Router();
 
 const {
     thumbnailList,
-    getVideoDetails
+    getVideoDetails,
+    addVideo
 } = require('../handler/videoHandler');
 
 const {
@@ -11,31 +12,35 @@ const {
     getComments
 } = require('../handler/commentHandler');
 
-const routes = [{
-    method: 'GET',
-    path: '/getThumbnails',
-    handler: thumbnailList
-}, {
-    method: 'GET',
-    path: '/video/:id',
-    handler: getVideoDetails
-}, {
-    method: 'POST',
-    path: '/comment',
-    handler: addComment
-}, {
-    method: 'GET',
-    path: '/comment/:id',
-    handler: getComments
-}];
+const {
+    registerUser,
+    loginUser,
+    logoutUser,
+} = require('../handler/authHandler')
 
-routes.forEach(route => {
-    const {
-        method,
-        path,
-        handler
-    } = route;
-    router[method.toLowerCase()](path, handler);
-});
+const { addProduct } = require('../handler/productHandler')
+
+const {
+    requireLogin
+} = require('../middleware/authMiddleware')
+
+// Home page
+router.get('/getThumbnails', thumbnailList);
+
+// Product handler
+router.post('/addProduct/:id', requireLogin, addProduct);
+
+// Video handler
+router.get('/video/:id', getVideoDetails);
+router.post('/addVideo', requireLogin, addVideo);
+
+// Comment handler
+router.post('/comment', requireLogin, addComment);
+router.get('/comment/:id', getComments);
+
+// User handler
+router.post('/register', registerUser);
+router.post('/login', loginUser);
+router.post('/logout', logoutUser);
 
 module.exports = router;
