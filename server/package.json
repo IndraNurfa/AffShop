@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node ./src/server",
     "lint": "eslint src/",
     "fix": "eslint src/ --fix",
-    "start": "nodemon ./src/server"
+    "dev": "nodemon ./src/server"
   },
   "keywords": [],
   "author": "",

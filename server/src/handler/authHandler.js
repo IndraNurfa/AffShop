@@ -91,10 +91,6 @@ const loginUser = async (req, res) => {
             expires: new Date(Date.now() + 86400000),
             httpOnly: true
         });
-        res.cookie('pict', user.pict, {
-            expires: new Date(Date.now() + 86400000),
-            httpOnly: true
-        });
 
         return res.status(200).json({
             message: 'Login successful',

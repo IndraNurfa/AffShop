@@ -20,10 +20,6 @@ const videoSchema = new mongoose.Schema({
     videoUrl: {
         type: String,
         required: true
-    },
-    timestamp: {
-        type: Date,
-        default: Date.now()
     }
 });
 

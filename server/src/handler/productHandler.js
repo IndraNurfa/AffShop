@@ -4,14 +4,16 @@ const addProduct = async (req, res) => {
     const {
         link,
         title,
-        price
+        price,
+        image
     } = req.body;
 
     const product = new Product({
         videoId: req.params.id,
         link: link,
         title: title,
-        price: price
+        price: price,
+        image: image
     });
 
     try {

@@ -41,7 +41,6 @@ const VideoPlayer = ({ videos }) => {
             <Text fontSize="lg" fontWeight="semibold">
               {videos.username}
             </Text>
-            <Text>Date</Text>
           </Box>
         </Flex>
         <Text mt="2">{videos.description}</Text>

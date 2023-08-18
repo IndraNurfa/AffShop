@@ -1,13 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Text, VStack, Input, Button, Flex } from '@chakra-ui/react';
+import {
+  Box,
+  Text,
+  VStack,
+  Input,
+  Button,
+  Flex,
+  useToast,
+} from '@chakra-ui/react';
 import { FaPaperPlane } from 'react-icons/fa';
 import moment from 'moment';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
+import useSession from '../hooks/useSession';
 
 const CommentSection = () => {
   const location = useLocation();
+  const session = useSession();
+  const toast = useToast();
 
   const queryParams = queryString.parse(location.search);
 
@@ -29,6 +40,15 @@ const CommentSection = () => {
 
   const handleCommentSubmit = async () => {
     try {
+      if (!session.user) {
+        toast({
+          title: 'Submit Failed',
+          description: 'You are not logged in!',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      }
       if (newComment.trim() !== '') {
         await axios.post('/api/comment', {
           comment: newComment,
