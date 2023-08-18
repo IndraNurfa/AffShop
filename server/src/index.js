@@ -5,6 +5,9 @@ const routes = require('./route/route');
 const session = require('express-session');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const path = require('path');
+
+const _dirname = path.resolve();
 
 const app = express();
 
@@ -47,6 +50,14 @@ database.once('connected', () => {
 
 // Add routes
 app.use('/api', routes);
+
+app.use(express.static(path.join(_dirname, "./client/build)")))
+
+app.get('*', function (_, res) {
+    res.sendFile(path.join(_dirname, "./client/build/index.html"), function (err) {
+        res.status(500).send(err);
+    })
+})
 
 // Listen for requests on port 3000
 app.listen(process.env.PORT, () => {
