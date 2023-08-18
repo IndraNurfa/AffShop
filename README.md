@@ -33,10 +33,6 @@ cd server
 npm install
 ```
 
-## Set Up Environment Variables:
-
-If necessary, edit variables in the PORT .env file.
-
 ## Start the API:
 
 Once the packages are installed and the environment variables are set, start the API server by running the following command:
