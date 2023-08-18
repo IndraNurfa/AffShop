@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./src/server",
+    "start": "node ./src/index",
     "lint": "eslint src/",
     "fix": "eslint src/ --fix",
-    "dev": "nodemon ./src/server"
+    "dev": "nodemon ./src/index"
   },
   "keywords": [],
   "author": "",
