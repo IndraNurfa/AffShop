@@ -1,10 +1,6 @@
 # AffShop
 
-AffShop is a web application that makes it easy for affiliate marketers to market the products they sell.
-
-- Videos: AffShop allows affiliate marketers to embed videos of the products they sell on their websites or social media pages. This is a great way to show potential customers how the products work and why they should buy them.
-- Stories: AffShop also allows affiliate marketers to share stories about the products they sell. This could be a personal story about how the product has helped them, or a story about a customer who has been happy with the product.
-- Testimonials: AffShop also allows affiliate marketers to collect testimonials from customers who have used the products they sell. This is a great way to build trust with potential customers and show them that the products are worth buying.
+AffShop (Tokopedia Play Clone) is a web application that makes it easy for affiliate marketers to market the products they sell.
 
 Features:
 - User can register, login and logout.
@@ -12,6 +8,8 @@ Features:
 - User can click each video and go to video detail page.
 - User can see list products, embed YouTube, list comment.
 - User can comment in the video.
+- User can search the video.
+- User can see their username and profile image on the top right corner of the page.
 
 ---
 # How to Run Locally
@@ -22,18 +20,35 @@ Features:
 - Navigate to the project directory in your terminal or command prompt.
 
 ## Install Required Packages
+
+Install package in client folder
 ```
+cd client
+npm install
+```
+
+Install package in server folder
+```
+cd server
 npm install
 ```
 
 ## Set Up Environment Variables:
 
-If necessary, edit variables in the .env file. For example, you might need to set up the DATABASE_URL, PORT.
+If necessary, edit variables in the PORT .env file.
 
 ## Start the API:
 
 Once the packages are installed and the environment variables are set, start the API server by running the following command:
+Run client(Frontend):
 ```
+cd client
+npm start
+```
+
+Run server(Backend):
+```
+cd client
 npm start
 ```
 
@@ -53,7 +68,7 @@ This collection stores information about registered users.
 | username    | String         | The username of the user.                  |
 | email       | String         | The email address of the user.             |
 | password    | String         | The password of the user (hashed).         |
-| photo       | String (URL)   | The URL to the profile photo of the user.  |
+| pict       | String (URL)   | The URL to the profile photo of the user.  |
 
 ## Videos Collection
 
@@ -67,8 +82,6 @@ This collection stores information about videos uploaded by users.
 | description | String         | The description of the video.                |
 | imageUrl    | String (URL)   | The URL to the thumbnail or image associated with the video. |
 | videoUrl    | String (URL)   | The URL to the actual video file.            |
-| views       | Number         | The number of views the video has received.  |
-| like        | Number         | The number of likes or upvotes the video has received. |
 
 ## Products Collection
 
@@ -81,6 +94,7 @@ This collection stores information about products associated with specific video
 | link        | String (URL)     | The link to the product (e.g., a product page URL). |
 | title       | String           | The title or name of the product.               |
 | price       | Number           | The price of the product.                       |
+| image       | String           | The image of the product.                       |
 
 ## Comments Collection
 
@@ -119,17 +133,18 @@ This document provides an overview of the API structure for the project. The API
 ### Comment Handler
 
 - **POST** `/api/comment`: Add a new comment to a video (requires authentication).
-- **GET** `/api/comment/:id`: Get comments for a specific video.
+- **GET** `/api/getComment/:id`: Get comments for a specific video.
 
 ### Auth Handler
 
 - **POST** `/api/register`: Register a new user.
 - **POST** `/api/login`: Log in an existing user.
 - **POST** `/api/logout`: Log out the currently logged-in user.
+- **GET** `/api/getSession`: Check current session as cookies.
 
 ### User Handler
 
-- **GET** `/api/profile`: Get the profile details of the currently logged-in user (requires authentication).
+- **GET** `/api/getProfile`: Get the profile details of the currently logged-in user (requires authentication).
 - **POST** `/api/profile`: Edit the profile details of the currently logged-in user (requires authentication).
 
 ---
@@ -144,9 +159,9 @@ The API is structured into various route handlers, each responsible for specific
 
 - **Video Handler**: The `/api/video/:id` route fetches details of a specific video. The `/api/addVideo` route allows adding a new video (requires authentication).
 
-- **Comment Handler**: The `/api/comment` route enables users to add new comments to videos (requires authentication). The `/api/comment/:id` route retrieves comments for a specific video.
+- **Comment Handler**: The `/api/comment` route enables users to add new comments to videos (requires authentication). The `/api/getComment/:id` route retrieves comments for a specific video.
 
-- **Auth Handler**: The `/api/register` route is used to register new users. The `/api/login` route facilitates logging in for existing users. The `/api/logout` route logs out the currently logged-in user.
+- **Auth Handler**: The `/api/register` route is used to register new users. The `/api/login` route facilitates logging in for existing users. The `/api/logout` route logs out the currently logged-in user. The `/api/getSession` route check current session as cookies.
 
 - **User Handler**: The `/api/profile` route retrieves profile details of the currently logged-in user (requires authentication). The `/api/profile` route allows editing the profile details of the currently logged-in user (requires authentication).
 
@@ -228,6 +243,27 @@ The API structure is designed to efficiently manage user-related actions, video-
 * **Code:** 200  
   **Content:** ` { message: 'Logged out successfully!' } `
 
+**GET /api/getSession**
+----
+Returns the current cookies.
+* **URL Params**  
+  None
+* **Data Params**  
+  None
+* **Headers**  
+  Content-Type: application/json  
+* **Success Response:**  
+* **Code:** 200  
+  **Content:**
+  ```
+  {
+  loggedIn: true,
+  <user_object>
+  }
+  ``` 
+* **Error Response:**
+  **Content:** `{ loggedIn: false}`
+
 **GET /api/profile**
 ----
 Returns the specified user that based on session login.
@@ -276,9 +312,7 @@ Returns the specified user that based on session login.
   title: string,
   description: string,
   imageUrl: string,
-  videoUrl: string,
-  views: number,
-  like: array
+  videoUrl: string
 }
 ```
 **GET /api/getThumbnails**
@@ -423,7 +457,7 @@ Return all videos in the system.
   timestamp: datetime(iso 8601)
 }
 ```
-**GET /api/comment/:id**
+**GET /api/getComment/:id**
 ----
 Returns the specified comments that related to the Specific video id.
 * **URL Params**  
